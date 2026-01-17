@@ -100,6 +100,7 @@
       canvas.addEventListener('click', function(event) {
     const pos = getMousePosition(canvas, event);
     gstat[(pos.x + view[0]*64)*48+pos.y+view[1]*64] = placeType
+        update()
 })
     </script>
   </body>
