@@ -17,6 +17,10 @@
       <option value="1">Forest/Park</option>
       <option value="3">City</option>
     </select>
+    <button onclick="up()">up</button>
+    <button onclick="left()">left</button>
+    <button onclick="down()">down</button>
+    <button onclick="right()">right</button>
     <script>
       var c = document.getElementById("canvas").getContext("2d")
       var water = Array.from("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
@@ -109,6 +113,22 @@
 
         update()
 })
+      function up(){
+        view[1]--
+        update()
+      }
+      function down(){
+        view[1]++
+        update()
+      }
+      function left(){
+        view[0]--
+        update()
+      }
+      function right(){
+        view[0]++
+        update()
+      }
     </script>
   </body>
 </html>
