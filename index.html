@@ -95,11 +95,18 @@
         var selectedValue = $(this).val();
 
         // Perform your action here (e.g., display the value)
-        placeType=Number(selectedValue)
+        placeType=(selectedValue)
     });
       canvas.addEventListener('click', function(event) {
-    const pos = getMousePosition(canvas, event);
-    gstat[(pos.x + view[0]*64)*48+pos.y+view[1]*64] = placeType
+    const pos = getMousePosition(event);
+    
+
+        const tileX = Math.floor(pos.x / 16);
+    const tileY = Math.floor(pos.y / 16);
+    const worldX = view[0] * 16 + tileX;
+    const worldY = view[1] * 16 + tileY;
+    gstat.bg[worldX * 48 + worldY] = placeType;
+
         update()
 })
     </script>
