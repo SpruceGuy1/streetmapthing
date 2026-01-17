@@ -12,18 +12,30 @@
   <body>
     <canvas id="canvas"></canvas>
     <script>
+      var water = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
       class Plan{
-        constructor(x,y,str){}
+        constructor(x,y,str){
+          this.x=x
+          this.y=y
+          this.str=str
+        }
       }
       var gstat = {
-        back:"",
+        view:[0,0],
+        
         plans:[
-          [new Plan(-1,1,""), new Plan(0,1,""), new Plan(1,1,""), ],
-          [new Plan(-1,0,""), new Plan(0,0,""), new Plan(1,0,""), ],
-          [new Plan(-1,-1,""), new Plan(0,-1,""), new Plan(1,-1,"")], 
+          [new Plan(-1,1,water), new Plan(0,1,water), new Plan(1,1,water), ],
+          [new Plan(-1,0,water), new Plan(0,0,water), new Plan(1,0,water), ],
+          [new Plan(-1,-1,water), new Plan(0,-1,water), new Plan(1,-1,wa)], 
         ],
       }
-      var view = [0,0]
+      function update(){
+        if(view[0]-Math.floor(view[0])==0.5 || view[1]-Math.floor(view[1])==0.5){
+          
+        }else{
+         // for(let i of 
+        }
+      }
     </script>
   </body>
 </html>
