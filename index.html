@@ -10,31 +10,124 @@
     <base target="_blank" />
   </head>
   <body>
-    <canvas id="canvas"></canvas>
+    <canvas id="canvas" width="256" height="256"></canvas>
+    <select id="d">
+      <option value="0">Water</option>
+      <option value="2">Sand</option>
+      <option value="1">Forest/Park</option>
+      <option value="3">City</option>
+    </select>
+    <button onclick="up()">up</button>
+    <button onclick="left()">left</button>
+    <button onclick="down()">down</button>
+    <button onclick="right()">right</button>
     <script>
-      var water = "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
-      class Plan{
-        constructor(x,y,str){
-          this.x=x
-          this.y=y
-          this.str=str
-        }
-      }
+      var c = document.getElementById("canvas").getContext("2d")
+      var water = Array.from("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+      function getMousePosition(event) {
+    // Get the position and size of the canvas relative to the viewport
+    const rect = document.getElementById("canvas").getBoundingClientRect();
+
+    // Calculate x and y coordinates relative to the canvas
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    return { x, y };
+}
+      
+      //view is at coords 0 0
+      var view = [0,0]
       var gstat = {
-        view:[0,0],
-        
-        plans:[
-          [new Plan(-1,1,water), new Plan(0,1,water), new Plan(1,1,water), ],
-          [new Plan(-1,0,water), new Plan(0,0,water), new Plan(1,0,water), ],
-          [new Plan(-1,-1,water), new Plan(0,-1,water), new Plan(1,-1,wa)], 
-        ],
-      }
+  "bg":Array.from("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"),
+  "streets":[
+    {
+      "name": "Ding-Dong",
+      "type": "street",
+      "direction": 2, 
+      "origin": [0,0],
+      "ending": [10,0]
+    }
+  ],
+  "stations":[
+    {
+      "name": "Ding-Dong Street",
+      "pos": [5,0],
+      "trains": ["c"]
+    }
+  ],
+  "trains":[
+    {
+      "id": "c",
+      "name": "c",
+      "tcol": "white",
+      "color": "blue",
+      "stations": [0]
+    }
+  ]
+}
       function update(){
-        if(view[0]-Math.floor(view[0])==0.5 || view[1]-Math.floor(view[1])==0.5){
-          
-        }else{
-         // for(let i of 
+        
+        for(let ix = 0; ix<=15; ix++){
+          for(let iy = 0; iy<=15; iy++){
+            var x = view[0]*16+ix
+            var y = view[1]*16+iy
+            switch(gstat.bg[(x)*48+y]){
+              case "0":
+                c.fillStyle="blue"
+                break
+              case "1":
+                c.fillStyle="lime"
+                break
+              case "2":
+                c.fillStyle="yellow"
+                break
+              case "3":
+                c.fillStyle="#404040"
+                break
+            }
+            c.fillRect(ix*16, iy*16, 16, 16)
+          }
         }
+      }
+      update()
+      var placeType = '0'
+    
+    $('#d').on('change', function() {
+        // This function will execute every time the selected option changes
+
+        // Get the value of the newly selected option
+        var selectedValue = $(this).val();
+
+        // Perform your action here (e.g., display the value)
+        placeType=(selectedValue)
+    });
+      canvas.addEventListener('click', function(event) {
+    const pos = getMousePosition(event);
+    
+
+        const tileX = Math.floor(pos.x / 16);
+    const tileY = Math.floor(pos.y / 16);
+    const worldX = view[0] * 16 + tileX;
+    const worldY = view[1] * 16 + tileY;
+    gstat.bg[worldX * 48 + worldY] = placeType;
+
+        update()
+})
+      function up(){
+        view[1]--
+        update()
+      }
+      function down(){
+        view[1]++
+        update()
+      }
+      function left(){
+        view[0]--
+        update()
+      }
+      function right(){
+        view[0]++
+        update()
       }
     </script>
   </body>
